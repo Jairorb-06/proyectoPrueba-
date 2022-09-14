@@ -4,6 +4,7 @@ import { InjectedConnector } from "@web3-react/injected-connector"; // para conf
 const connector = new InjectedConnector({  // este lo exportamos como conector en el export
   supportedChainIds: [
     4, // Rinkeby
+    80001
   ],
 });
 
