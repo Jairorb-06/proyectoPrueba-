@@ -1,7 +1,7 @@
 import React from "react";
-import WalletData from "../../../Layouts/main";
-import Home from "../../../views/home";
-import Transfer from "../../../views/Tokens/Transfer";
+import WalletData from "../Layouts/main";
+import Home from "../views/mint";
+import Transfer from "../views/Tokens/Transfer";
 import {Link } from 'react-router-dom'
 
 const Index = () => {

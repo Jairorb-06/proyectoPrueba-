@@ -20,13 +20,11 @@ const Transfer = () => {
     if (localStorage.getItem("previouslyConnected") === "true") connect(); // hace que se conecte en automatico
   }, [connect]); // localStorage biene del navegador
 
-
+console.log({NFTs})
 
   return (
 
-    
-
-    <div className='container-fluid cew-9'>
+    <div>
       {NFTs.map(({name, image, tokenId})=>(
         <Link key={tokenId}  to={`/NFTs/${tokenId}`}>
         <div  className='container'>

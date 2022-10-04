@@ -26,11 +26,13 @@ const Home = () => {
     setIsMinting(true);
     udenarToken.methods
       .mint(
-        "https://gateway.pinata.cloud/ipfs/QmXXZmQgCqnE55mQz8b6ykjZQosBfA7J2QQx7LatgMWwh1/4.json"
+        
+        "https://gateway.pinata.cloud/ipfs/QmXXZmQgCqnE55mQz8b6ykjZQosBfA7J2QQx7LatgMWwh1/5.json"
       )
       .send({
         from: account,
         value: 10000000000000000,
+
       })
       .on("transactionHash", (txHash) => {
         alert(`Transacción enviada txHash: ${txHash}`);
@@ -84,7 +86,7 @@ const Home = () => {
         Comprar NFT{" "}
       </button>
 
-      {/* {IMAGES.map((img, index) => (
+       {IMAGES.map((img, index) => (
         <>
           <img key={index} src={img} width="300" height="300" />
           <button onClick={mint} disabled={!udenarToken} isloading={isMinting}>
@@ -92,7 +94,7 @@ const Home = () => {
           </button>
         </>
       ))}
-       */}
+       
     </>
   );
 };

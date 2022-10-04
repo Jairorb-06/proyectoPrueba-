@@ -1,12 +1,12 @@
 import React from "react";
 // import { Route } from 'react-router-dom';
 import WalletData from "./Layouts/main";
-import Home from "./views/home";
+import Home from "./views/mint";
 import Transfer from "./views/Tokens/Transfer";
 // import {BrowserRouter, Route, Routes } from 'react-router-dom'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NFTs from "./views/Tokens/NFTs";
-import Index from "./config/web3/menu/Index";
+import Index from "./menu/Index";
 //import WalletData from "./wallet-data";
 
 /* function Boton(props){
