@@ -24,6 +24,8 @@ function App() {
         <Switch>
           {/* <Route path="/" exact component={Transfer} /> */}
           <Route path="/NFTs" exact component={NFTs} />
+          <Route path="/Transfer" exact component={Transfer} />
+          <Route path="/NFTs/:tokenId" exact component={NFTs} />
           <Route path="/" exact component={Index} />
           {/* <Route path="/" exact component={Home} /> */}
         </Switch>

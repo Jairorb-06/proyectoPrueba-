@@ -18,23 +18,40 @@ const getUdenarData = async ({udenarToken, tokenId})=>{
     }
 }
 
-/* const useUdenarTokensData=()=>{
+const useUdenarTokensData=()=>{
     const [NFTs, setNFTs]= useState([]);
     const [loading, setLoading]= useState(true);
+
     const udenarToken = useUdenarToken();
 
-    const update = useCallback(()=>{
+    const update = useCallback(async()=>{
         if(udenarToken){
             setLoading(true);
+            let tokenIds;
 
+            const totalSupply = await udenarToken.methods.totalSupply().call();
+            tokenIds = new Array(Number(totalSupply)).fill().map((_, index)=>index);
+
+            const tokenPromise= tokenIds.map((tokenId)=> getUdenarData({tokenId, udenarToken}))
+            
+            const Tokens = await Promise.all(tokenPromise);
+
+            setNFTs(Tokens);
             setLoading(false);
         }
-    })
+    }, [udenarToken])
 
     useEffect(()=>{
         update();
-    },[update])
-} */
+    },[update]);
+
+    return{
+        loading,
+        NFTs,
+        update,
+    }
+}
+
 const useUdenarTokenData=(tokenId= null)=>{
     const [NFTs, setNFTs]= useState([]);
     const [loading, setLoading]= useState(true);
@@ -60,4 +77,4 @@ const useUdenarTokenData=(tokenId= null)=>{
     }
 };
 
-export {useUdenarTokenData};
+export {useUdenarTokensData, useUdenarTokenData};
