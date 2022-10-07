@@ -9,6 +9,7 @@ const getUdenarData = async ({udenarToken, tokenId})=>{
         udenarToken.methods.ownerOf(tokenId).call()
     ])
     const responseMetadata = await fetch(tokenURI);
+    
     const metadata = await responseMetadata.json();
     return{
         tokenId,

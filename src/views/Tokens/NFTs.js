@@ -108,6 +108,7 @@ frutas.forEach(function(elemento, indice, array) {
 
   return (
     <div>
+      <p>{account}</p>
         <p>maxSupply: {maxSupply}</p>
         
         <p>dueño: {NFTs.owner}</p>

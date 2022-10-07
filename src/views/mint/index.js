@@ -26,8 +26,8 @@ const Home = () => {
     setIsMinting(true);
     udenarToken.methods
       .mint(
-        
-        "https://gateway.pinata.cloud/ipfs/QmXXZmQgCqnE55mQz8b6ykjZQosBfA7J2QQx7LatgMWwh1/5.json"
+        `${URIS[6]}`
+        // "https://gateway.pinata.cloud/ipfs/QmXXZmQgCqnE55mQz8b6ykjZQosBfA7J2QQx7LatgMWwh1/5.json"
       )
       .send({
         from: account,
@@ -82,13 +82,13 @@ const Home = () => {
 
   return (
     <>
-      <button onClick={mint} disabled={!udenarToken} isloading={isMinting}>
-        Comprar NFT{" "}
-      </button>
+      {/* <button onClick={mint} disabled={!udenarToken} isloading={isMinting}>
+        Comprar NFT
+      </button> */}
 
        {IMAGES.map((img, index) => (
         <>
-          <img key={index} src={img} width="300" height="300" />
+          <img key={index} src={img} width="300" height="300" alt="token"/>
           <button onClick={mint} disabled={!udenarToken} isloading={isMinting}>
             ObtenerToken
           </button>

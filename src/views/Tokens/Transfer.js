@@ -25,14 +25,23 @@ console.log({NFTs})
   return (
 
     <div>
-      {NFTs.map(({name, image, tokenId})=>(
-        <Link key={tokenId}  to={`/NFTs/${tokenId}`}>
-        <div  className='container'>
-            <p>{name}</p>
-          <img src={image} height = {100} width={100} />
-          <span>{tokenId}</span>
-        </div>
-        </Link>
+      {NFTs.map((nft)=>(
+        
+        nft.owner !== "0" ? (
+
+         <Link key={nft.tokenId}  to={`/NFTs/${nft.tokenId}`}>
+         {/* {console.log(nft)} */}
+       <div  className='container'>
+           <p>{nft.name}</p>
+
+         <img src={nft.image} height = {100} width={100} alt=".." />
+         <span>{nft.tokenId}</span>
+       </div>
+       </Link>
+        ):(
+          console.log("nada")
+        ) 
+      
         
         
       ))}
