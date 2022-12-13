@@ -8,6 +8,15 @@ import { useParams } from "react-router-dom";
 
 import { connector } from "../../config/web3";
 
+import QRCode from "react-qr-code";
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+} from "reactstrap";
+import "bootstrap/dist/css/bootstrap.css";
+
 
 const NFTs = () => {
     const {active, activate, account, library  } = useWeb3React();
@@ -54,7 +63,7 @@ const NFTs = () => {
             alert("Dirección Invalida");
             setTransfering(false);
         }else{
-            console.log(udenarToken.methods);
+            
             udenarToken.methods.safeTransferFrom(NFTs.owner, cuentaTransfer, tokenId).send({
                 from:account,
                 // value: 10000000000000000,
@@ -104,6 +113,22 @@ frutas.forEach(function(elemento, indice, array) {
      */
     //  console.log(`Estso son los atributos ${atributos.length}`)
 
+    const modalStyles = {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+    };
+  
+    const [abierto, setAbierto] = useState(false);
+    const [idToken, setIdToken] =useState()
+
+    const abrirModal = (tokenId) => {
+      setAbierto(!abierto);
+    setIdToken(tokenId);
+      // this.setState({abierto: !state.abierto});
+    };
+
     if(!active) return "Conecta tu wallet!";
 
   return (
@@ -121,11 +146,12 @@ frutas.forEach(function(elemento, indice, array) {
           }
         </p>
 
-        <img src={NFTs.image} height={250} width={250}/>
+        <img src={NFTs.image} height={250} width={250} alt="NFT´s"/>
         {/* <p>Account: {account}</p> */}
 
         <br/>
-        <p>este es otro item: {NFTs.date}</p>
+        <button className="btn btn-outline-info" onClick={()=>abrirModal(tokenId)}>Qr</button>
+        
 {/* 
 attributes
 {NFTs.map(({name, image, tokenId})=>(
@@ -156,6 +182,21 @@ attributes
       </Link>
       <br/>
       <span>{cuentaTransfer}</span>
+
+      <Modal isOpen={abierto} style={modalStyles}>
+        <ModalHeader >QR Code   &nbsp; &nbsp; &nbsp;
+          <button type="button" className="btn-close"  onClick={abrirModal}></button>
+        </ModalHeader>
+        <ModalBody>
+          
+        <QRCode
+        size={256}
+        style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+        value={`${idToken}, ${account}`}
+        viewBox={`0 0 256 256`}
+      />
+        </ModalBody>
+      </Modal>
     </div>
   );
 };

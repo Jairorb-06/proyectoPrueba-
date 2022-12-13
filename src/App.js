@@ -7,6 +7,10 @@ import Transfer from "./views/Tokens/Transfer";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NFTs from "./views/Tokens/NFTs";
 import Index from "./menu/Index";
+import Sell from "./views/mint/Sell";
+ import ImageProvider from "./providers/ImageProvider";
+import ImgProvider from "./providers/ImgProvider";
+import QrRead from "./QrReader/QrReader";
 //import WalletData from "./wallet-data";
 
 /* function Boton(props){
@@ -20,17 +24,21 @@ import Index from "./menu/Index";
 function App() {
   return (
     <>
+    <ImgProvider>
+    <ImageProvider>
       <Router>
         <Switch>
           {/* <Route path="/" exact component={Transfer} /> */}
           <Route path="/NFTs" exact component={NFTs} />
           <Route path="/Transfer" exact component={Transfer} />
           <Route path="/NFTs/:tokenId" exact component={NFTs} />
+          <Route path="/Venta/:index" exact component={Sell} />
           <Route path="/" exact component={Index} />
-          {/* <Route path="/" exact component={Home} /> */}
+          <Route path="/qr_reader" exact component={QrRead} />
         </Switch>
       </Router>
-      
+      </ImageProvider>
+    </ImgProvider>
     </>
     /*  <Home></Home> */
     /* <Route path="/" exact component={Home}/> */

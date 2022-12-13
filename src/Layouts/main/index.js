@@ -5,13 +5,6 @@ import {  useWeb3React } from "@web3-react/core";
 import { connector } from "../../config/web3"; 
 //import useImagenToken from "../../hooks/useUdenarToken";
 
-/* function Boton(props){
-    return (
-      <button onClick={props.nombre}>
-        Conectar wallet
-      </button>d
-    )
-  } */
 
 const WalletData = () => {
   const [balance, setBalance] = useState(0); // variable de estado para almacenar el balance
@@ -22,10 +15,25 @@ const WalletData = () => {
   
 
   //const isUnsupportedChain = error instanceof UnsupportedChainIdError;
+  /* 
+  const isMetamaskIstalled = ()=>{
+    const {ethereum} = window
+    return Boolean(ethereum && ethereum.isMetaMask)
+  }
+ */
+  const connect = useCallback(async() => {
 
-  const connect = useCallback(() => {
-    activate(connector);
-    localStorage.setItem("previouslyConnected", "true");
+    if(!window.ethereum){  /* !isMetamaskIstalled() */
+       alert("Yo need install MetaMask")        
+          window.open('https://metamask.io/');
+    }else{
+      try {
+       await activate(connector);
+        localStorage.setItem("previouslyConnected", "true");
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }, [activate]);
 
   const disconnect = () => {
