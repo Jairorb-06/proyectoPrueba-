@@ -8,6 +8,10 @@ import { async } from '@firebase/util';
 import { initializeApp } from 'firebase/app';
 import 'firebase/firestore';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
+
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/auth';
+
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -20,5 +24,12 @@ const firebaseConfig = {
   measurementId: "G-JD4M9V5FDJ"
 };
 
-const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+// const app = initializeApp(firebaseConfig);
+// export const db = getFirestore(app);
+
+
+   const firebaseApp = firebase.initializeApp(firebaseConfig)
+
+   export const db = getFirestore(firebaseApp);
+  //  const auth = firebase.auth()
+  //  export { auth }

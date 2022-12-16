@@ -69,7 +69,6 @@ const useUdenarTokensData = ({ owner = null } = {}) => {
   useEffect(() => {
     update();
   }, [update]);
-
   return {
     loading,
     NFTs,

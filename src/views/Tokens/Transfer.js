@@ -23,7 +23,8 @@ const Transfer = () => {
   const { NFTs, loading } = useUdenarTokensData({
     owner: account,
   });
-
+ 
+  
   const connect = useCallback(() => {
     activate(connector); // crea la instancia de web3 con el conector y queda listo para que library de web3 la utilice
     localStorage.setItem("previouslyConnected", "true");
@@ -45,12 +46,13 @@ const Transfer = () => {
   // const totalSupply = await udenarToken.methods.totalSupply().call();
 
   const onChangeInputT = (event) => {
+    
     setVerifTokenId(event.target.value);
   };
   const onChangeInputA = (event) => {
     setVerifAddres(event.target.value);
   };
-  const getOwnerToken = async () => {
+   const getOwnerToken = async () => {
     if (udenarToken) {
       const ownerOff = await udenarToken.methods.ownerOf(verifTokenId).call();
       if (verifAddres === ownerOff) {
@@ -61,7 +63,11 @@ const Transfer = () => {
 
       //  setOwnerOff(ownerOff)
     }
-  };
+  }; 
+ 
+  
+
+  //------------------------------------------------------------------------------------
 
   const modalStyles = {
     position: "absolute",
@@ -76,6 +82,11 @@ const Transfer = () => {
     setIdToken(tokenId);
   };
   const ModalQR = ({ estado, cambiarEstado }) => {
+   /* const tokenURI = {
+       "0xa5349dabf173729fb1bd774b439aa3ab91234388": [
+         "https://gateway.pinata.cloud/ipfs/QmXXZmQgCqnE55mQz8b6ykjZQosBfA7J2QQx7LatgMWwh1/1.json"
+       ]
+     } */
     return (
       <>
         {estado && (
@@ -93,7 +104,8 @@ const Transfer = () => {
                 <QRCode
                   size={256}
                   style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                  value={`TokenId : ${idToken} \n Cuenta: ${account}`}
+                   value={`TokenId: ${idToken} \n Cuenta: ${account}`}
+                  // value={tokenURI}
                   viewBox={`0 0 256 256`}
                 />
             </ModalBody>
@@ -110,7 +122,8 @@ const Transfer = () => {
       <br />
       <button onClick={getOwnerToken}>Verificar</button>
       <h4> {ownerOff}</h4>
-      {NFTs.map((nft) =>
+      {console.log(NFTs)}
+      {NFTs && NFTs.map((nft) =>
         nft.owner !== "0" ? (
           <div key={nft.tokenId} className="">
             <Link to={`/NFTs/${nft.tokenId}`}>
