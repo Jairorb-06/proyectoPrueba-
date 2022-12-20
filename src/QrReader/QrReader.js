@@ -4,6 +4,7 @@ import React, { useState,useCallback, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
 import useUdenarToken from "../hooks/useUdenarToken";
 import { connector } from "../config/web3";
+import { searchDateRegist } from "../config/firebase/api";
 // import QrScan from 'react-qr-reader';
 // import { QrReader } from 'react-qr-reader';
 
@@ -48,7 +49,7 @@ const QrReader = () => {
    //---------------------------------------------------------------------------------
   
    
-   const getOwnerToken = async () => {
+  /*  const getOwnerToken = async () => {
      console.log("address", verifTokenId, verifAddres)
      if (udenarToken) {
        const ownerOff = await udenarToken.methods.ownerOf(verifTokenId).call();
@@ -62,11 +63,26 @@ const QrReader = () => {
   };
  useEffect(() => {
    getOwnerToken()
-   }, [])
- 
-   
+   }, []) */
+   const [ resultado, setResultado]=useState('');
+
+    
+    searchDateRegist(verifTokenId, verifAddres).then(result=>setResultado(result))
+
+    if(resultado === true){
+      alert("¡Correcto, Bienvenido!")
+    }
+    else if(resultado ==='false'){
+        alert("¡Tu registro es incorrecto!")
+    }
+     
+//  const getDate=async()=> await searchDateRegist(verifTokenId, verifAddres)
+  
   return (
     <div style={modalStyles}>
+      
+     {/* {console.log(resultado ? resultado : "espera...")}  */}
+
         <div className="d-grid gap-2 d-md-flex justify-content-md">
         <Link to="/">
             <button className="btn btn-outline-primary btn-sm" type="button">Regresar</button>

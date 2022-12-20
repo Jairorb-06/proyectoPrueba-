@@ -77,6 +77,7 @@ const Transfer = () => {
   };
 
   const [openModal, setOpenModal] = useState(false);
+
   const OpenModal = (tokenId) => {
     setOpenModal(!openModal);
     setIdToken(tokenId);
@@ -116,11 +117,11 @@ const Transfer = () => {
   };
   return (
     <div>
-      <input onChange={onChangeInputT} placeholder="Token Id" />
+      {/* <input onChange={onChangeInputT} placeholder="Token Id" />
       <br />
       <input onChange={onChangeInputA} placeholder="Ingresa tu billetera" />
       <br />
-      <button onClick={getOwnerToken}>Verificar</button>
+      <button onClick={getOwnerToken}>Verificar</button> */}
       <h4> {ownerOff}</h4>
       {console.log(NFTs)}
       {NFTs && NFTs.map((nft) =>
@@ -159,7 +160,8 @@ const Transfer = () => {
           console.log("nada")
         )
       )}
-      <ModalQR estado={openModal} cambiarEstado={setOpenModal} />
+      <ModalQR 
+       />
 
       <Link to="/">
         <button type="button" onClick={() => window.open(`/`, "_self")}>
