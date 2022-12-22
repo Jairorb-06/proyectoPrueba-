@@ -117,13 +117,17 @@ const Transfer = () => {
   };
   return (
     <div>
+      <Link to="/">
+        <button className="btn btn-outline-primary btn-sm" type="button">
+          Regresar
+        </button>
+      </Link>
       {/* <input onChange={onChangeInputT} placeholder="Token Id" />
       <br />
       <input onChange={onChangeInputA} placeholder="Ingresa tu billetera" />
       <br />
       <button onClick={getOwnerToken}>Verificar</button> */}
       <h4> {ownerOff}</h4>
-      {console.log(NFTs)}
       {NFTs && NFTs.map((nft) =>
         nft.owner !== "0" ? (
           <div key={nft.tokenId} className="">
@@ -163,11 +167,12 @@ const Transfer = () => {
       <ModalQR 
        />
 
-      <Link to="/">
+      {/* <Link to="/">
         <button type="button" onClick={() => window.open(`/`, "_self")}>
           Cancelar
         </button>
-      </Link>
+      </Link> */}
+      
     </div>
   );
 };

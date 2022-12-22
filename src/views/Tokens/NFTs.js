@@ -13,7 +13,7 @@ import { Button, Modal, ModalHeader, ModalBody } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import ModalReg from "../../componets/ModalReg";
 import { useImgContext } from "../../providers/ImgProvider";
-import { searchRegister, searchId } from '../../config/firebase/api'
+import { searchRegister, searchIdName } from '../../config/firebase/api'
 
 const NFTs = () => {
   const { active, activate, account, library } = useWeb3React();
@@ -92,16 +92,6 @@ const NFTs = () => {
     if (localStorage.getItem("previouslyConnected") === "true") connect(); // hace que se conecte en automatico
   }, [connect]); // localStorage biene del navegador
 
-  /* atributos.forEach(function(elemento, indice){
-      console.log(elemento, indice)
-    }) */
-  /* 
-frutas.forEach(function(elemento, indice, array) {
-    console.log(elemento, indice);
-})
-     */
-  //  console.log(`Estso son los atributos ${atributos.length}`)
-
 /*   const modalStyles = {
     position: "absolute",
     top: "50%",
@@ -111,39 +101,44 @@ frutas.forEach(function(elemento, indice, array) {
  */
   const [openModal, setOpenModal] = useState(false);
 
-   const [getQr, setGenQr]= useState(false);
-  // const [idToken, setIdToken] = useState();
-
-
   
-  const [ registerId , setRegisterId] = useState('')
-  const [searchRegis, setSearchRegis]=useState();
+  const [foundRegist, setFoundRegist]=useState(false)
+  const [name, setName ]= useState('')
+  const [identification, setIdentification ]= useState('')
+  const [value, setValue]=useState('')
+
   const abrirModal = () => {
     setOpenModal(!openModal);
-    // setIdToken(tokenId);
-    // this.setState({openModal: !state.openModal});
   };
 
-     searchRegister(tokenId).then((result)=>{
-     setSearchRegis(result)})
 
+  const getAsistentes =async ()=>{
+    const estadoReg = await searchRegister(tokenId, account);
+    setFoundRegist(estadoReg);
+  }
+ 
+  useEffect(()=>{
+    getAsistentes();
+    getIdName();
+    setValue(`tokenId: ${tokenId} \ncuenta: ${account} \nname: ${name} \nidentification: ${identification}`)
+  })
 
-  // const searchRegist = false;
-
+  const getIdName= async()=>{
+    const {identification, name} = await searchIdName(tokenId, account);
+    setIdentification(identification) 
+    setName(name)
+    
+  }
   if (!active) return "Conecta tu wallet!";
 
-  //{registerId}
-  //{account}
-  //{tokenId}
   return (
     <div className="container">
+      {/* {console.log(name ? name : "Trayendo datos...")} */}
       <ModalReg
         tokenId={tokenId}
         account={account} 
         estado={openModal} 
         cambiarEstado={setOpenModal} 
-        setGenQr = {setGenQr}
-        setRegisterId={setRegisterId}
       />
       <p>{account}</p>
       <p>maxSupply: {maxSupply}</p>
@@ -162,14 +157,15 @@ frutas.forEach(function(elemento, indice, array) {
           <img src={NFTs.image} height={250} width={250} alt="NFT´s" />
         </div>
         <div className="col-md-4 offset-md">
-        {searchRegis ? (
-        <QRCode
-        size={256}
-        style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-        /* {`TokenId: ${idToken} \n Cuenta: ${account}`} */
-         value={`TokenId: ${tokenId} \n Cuenta: ${account}`}
-        viewBox={`0 0 256 256`}
-        />
+           {/* {console.log(foundRegist ? foundRegist : "espera...")}  */}
+          {foundRegist && name  ? (
+             
+            <QRCode
+            size={256}
+            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+            value={value}
+            viewBox={`0 0 256 256`}
+            /> 
         ):(
           <button
           className="btn btn-outline-success"
@@ -195,7 +191,7 @@ frutas.forEach(function(elemento, indice, array) {
         {account !== NFTs.owner ? "No Eres el Dueño" : "Tranferir Token"}
       </button>
 
-      <Link to="/">
+      <Link to="/transfer">
         <button className="btn btn-outline-primary btn-sm" type="button">
           Regresar
         </button>

@@ -15,12 +15,12 @@ const Index = () => {
         </button> */}
         {/* <div className="collapse navbar-collapse" id="opciones"> */}
         <ul className="navbar-nav">
-          <li className='nav-item'>
+          {/* <li className='nav-item'>
             <a className="nav-link" href="/">Udenar</a>  
           </li>
           <li className='nav-item'>
           <a className="nav-link active" aria-current="page" href="/">Home</a>  
-          </li>
+          </li> */}
           <li className='nav-item'>
           <a className="nav-link active" href="/transfer">Galeria</a>
           </li>
@@ -37,8 +37,14 @@ const Index = () => {
                   window.open(`/transfer`, "_self")
                 } >Galeria</button>
       <button>heyy you</button>  */}
-      <WalletData />
-      <Home />
+       <WalletData />
+       <div>
+         <img src="https://th.bing.com/th/id/OIP.yC-h1EWpHne90oRtyp4WdQHaFO?pid=ImgDet&rs=1" 
+            alt="--" 
+            height= '100%'
+            width= "100%"/>
+       </div>
+      {/* <Home /> */}
     </div>
   );
 };

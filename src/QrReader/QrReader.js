@@ -4,9 +4,8 @@ import React, { useState,useCallback, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
 import useUdenarToken from "../hooks/useUdenarToken";
 import { connector } from "../config/web3";
-import { searchDateRegist } from "../config/firebase/api";
-// import QrScan from 'react-qr-reader';
-// import { QrReader } from 'react-qr-reader';
+import { searchRegister } from "../config/firebase/api";
+import Swal from 'sweetalert2';
 
 const QrReader = () => {
   const { activate } = useWeb3React()    
@@ -20,10 +19,13 @@ const QrReader = () => {
     }, [connect]); // localStorage biene del navegador
   const udenarToken = useUdenarToken()
 
-  const [verifTokenId, setVerifTokenId] = useState("");
-  const [verifAddres, setVerifAddres] = useState("");
-  const [ownerOff, setOwnerOff] = useState("");
-  const [idToken, setIdToken] = useState();
+  const [tokenId, setTokenId] = useState("");
+  const [account, setAccount] = useState("");
+  const [idName, setIdName]= useState('');
+  // const [ownerOff, setOwnerOff] = useState("");
+  // const [idToken, setIdToken] = useState();
+
+  
 
 
     const modalStyles = {
@@ -37,9 +39,9 @@ const QrReader = () => {
         if (data) {
             setQrscan(data)
             let arr = data.split(' ');
-            setVerifTokenId(arr[1])
-            setVerifAddres(arr[4])
-            // ['TokenId:', '4', '\n', 'Cuenta:', '0xD7544D9100aC97aF9E5193ED5f275Ac8bAC75cc9']
+            setTokenId(arr[1])
+            setAccount(arr[3])
+            setIdName(`${arr[5]} ${arr[6]}  ${arr[8]}`)
         }
     }
     const handleError = err => {
@@ -49,42 +51,72 @@ const QrReader = () => {
    //---------------------------------------------------------------------------------
   
    
-  /*  const getOwnerToken = async () => {
-     console.log("address", verifTokenId, verifAddres)
+    const getOwnerToken = async () => {
      if (udenarToken) {
-       const ownerOff = await udenarToken.methods.ownerOf(verifTokenId).call();
-       if (verifAddres === ownerOff) {
+       const ownerOff = await udenarToken.methods.ownerOf(tokenId).call();
+       if (account === ownerOff) {
          console.log("Adelante Bienvenido!");
+         Swal.fire(
+          'Bienvenido!',
+          '',
+          'success'
+        )
        } else {
-         console.log("EL NFT no te pertenece!!");
+         console.log('El NFT no te pertenece');
+        Swal.fire(
+          'EL NFT no te pertenece!',
+          '',
+          'error'
+        )
        }
        //  setOwnerOff(ownerOff)
      }
   };
+  /*
  useEffect(() => {
    getOwnerToken()
    }, []) */
-   const [ resultado, setResultado]=useState('');
+    const getAsistentes =async ()=>{
+    const estadoReg = await searchRegister(tokenId, account);
+    if(estadoReg === true){
+      Swal.fire(
+        'Usuario',
+        idName,
+        'success'
+      )
+      // window.open(`/`, "_self")
+      
+    }
+    if(estadoReg === false){
+      Swal.fire(
+        'Incorrecto',
+        'Tu registro no coincide',
+        'error'
+      )
+    }
 
-    
-    searchDateRegist(verifTokenId, verifAddres).then(result=>setResultado(result))
+  }
+  useEffect(() => {
+    getAsistentes()
+    })
+ 
+    // searchRegister(tokenId, account).then(result=>setResultado(result))
 
-    if(resultado === true){
+   /*  if(resultado === true){
       alert("¡Correcto, Bienvenido!")
     }
-    else if(resultado ==='false'){
+    else if(resultado ===false){
         alert("¡Tu registro es incorrecto!")
-    }
+    } */
      
 //  const getDate=async()=> await searchDateRegist(verifTokenId, verifAddres)
   
   return (
     <div style={modalStyles}>
-      
      {/* {console.log(resultado ? resultado : "espera...")}  */}
 
         <div className="d-grid gap-2 d-md-flex justify-content-md">
-        <Link to="/">
+        <Link to="/transfer">
             <button className="btn btn-outline-primary btn-sm" type="button">Regresar</button>
         </Link>
         </div>
@@ -105,7 +137,13 @@ const QrReader = () => {
        defaultValue={qrscan}
        value={qrscan}
       /> 
-      {/* <button onClick={getOwnerToken}>Verificar</button> */}
+       <button
+       className="btn btn-outline-primary btn-sm"
+        onClick={getOwnerToken}
+        disabled={qrscan === 'No result'}
+      >
+        {qrscan === 'No result' ? "Escanea el Qr" : "Verificar dueño de NFT"}
+        </button>
     </div>
   );
 };

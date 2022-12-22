@@ -11,6 +11,7 @@ import Sell from "./views/mint/Sell";
  import ImageProvider from "./providers/ImageProvider";
 import ImgProvider from "./providers/ImgProvider";
 import QrRead from "./QrReader/QrReader";
+
 //import WalletData from "./wallet-data";
 
 /* function Boton(props){
