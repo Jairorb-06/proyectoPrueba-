@@ -14,6 +14,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import ModalReg from "../../componets/ModalReg";
 import { useImgContext } from "../../providers/ImgProvider";
 import { searchRegister, searchIdName } from '../../config/firebase/api'
+import QrGenerator from "../../componets/QrGenerator";
 
 const NFTs = () => {
   const { active, activate, account, library } = useWeb3React();
@@ -99,19 +100,15 @@ const NFTs = () => {
     transform: "translate(-50%, -50%)",
   };
  */
-  const [openModal, setOpenModal] = useState(false);
 
-  
+  const [openModal, setOpenModal] = useState(false);
   const [foundRegist, setFoundRegist]=useState(false)
-  const [name, setName ]= useState('')
-  const [identification, setIdentification ]= useState('')
-  const [value, setValue]=useState('')
+  const [loadingQr, setLoadingQr]=useState(false)
+  
 
   const abrirModal = () => {
     setOpenModal(!openModal);
   };
-
-
   const getAsistentes =async ()=>{
     const estadoReg = await searchRegister(tokenId, account);
     setFoundRegist(estadoReg);
@@ -119,16 +116,8 @@ const NFTs = () => {
  
   useEffect(()=>{
     getAsistentes();
-    getIdName();
-    setValue(`tokenId: ${tokenId} \ncuenta: ${account} \nname: ${name} \nidentification: ${identification}`)
   })
 
-  const getIdName= async()=>{
-    const {identification, name} = await searchIdName(tokenId, account);
-    setIdentification(identification) 
-    setName(name)
-    
-  }
   if (!active) return "Conecta tu wallet!";
 
   return (
@@ -158,15 +147,19 @@ const NFTs = () => {
         </div>
         <div className="col-md-4 offset-md">
            {/* {console.log(foundRegist ? foundRegist : "espera...")}  */}
-          {foundRegist && name  ? (
+           {loadingQr ? (
+              <div className="d-flex justify-content-center">
+              <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+             ):(
+               ''              
+             )}
+           {foundRegist ? (
              
-            <QRCode
-            size={256}
-            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-            value={value}
-            viewBox={`0 0 256 256`}
-            /> 
-        ):(
+           <QrGenerator  _tokenId={tokenId} _account={account} setFoundRegist={setFoundRegist} setLoadingQr={setLoadingQr} />
+           ):(
           <button
           className="btn btn-outline-success"
           onClick={() => abrirModal()}

@@ -4,13 +4,12 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
-  FormGroup,
   Input,
   Label,
 } from "reactstrap";
-import {saveAttendees, getAttendees} from '../config/firebase/api'
-import { useImgContext } from '../providers/ImgProvider';
+import {saveAttendees, getAttendees} from '../config/firebase/api';
+ import CryptoJS from 'crypto-js'
+
 
 const ModalReg = ({ tokenId, account, estado, cambiarEstado }) => {  
 
@@ -21,8 +20,19 @@ const ModalReg = ({ tokenId, account, estado, cambiarEstado }) => {
     phone: "",
   })
 
+  const [nameCrypt, setNameCrypt] = useState('');
+
   const handleChange = (e)=>
   {
+    // console.log(user.name)
+   
+    // var encryptedData = encrypt(`${user.name}`, 'secretKey');
+    var ciphertext = CryptoJS.AES.encrypt((`${user.name}`), 'my-secret-key@123').toString();
+    var bytes = CryptoJS.AES.decrypt(ciphertext, 'my-secret-key@123');
+    // var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    setNameCrypt(ciphertext);
+    console.log(bytes)
+     
     const { name, value} = e.target;
     setUser(prev => ({
       ...prev,
@@ -34,7 +44,7 @@ const ModalReg = ({ tokenId, account, estado, cambiarEstado }) => {
     e.preventDefault();
     cambiarEstado(false)
     // setGenQr(true)
-
+   
     saveAttendees(tokenId, account, user.name, user.identification, user.email, user.phone)
     setUser({
       name:"",
@@ -44,8 +54,11 @@ const ModalReg = ({ tokenId, account, estado, cambiarEstado }) => {
     })
   }
 
+  
   return (
     <>
+    {console.log(nameCrypt)}
+    
       {estado && (
         <Modal isOpen={estado} >      
                  

@@ -20,6 +20,7 @@ export const saveAttendees = async (
       email: _email,
       phone: _phone,
       date: hoy,
+      state: false,
     });
     return `Usuario registrado con idDoc: ${docRef.id} `;
   } catch (e) {
@@ -51,10 +52,10 @@ export const searchRegister = async ( _tokenId , _account ) => {
     const tiempoTranscurrido = Date.now();
     const hoy = new Date(tiempoTranscurrido);
     const ayer = hoy.getTime() - 86400000; // 24 horas
-    const otroTiempo = hoy.getTime() - 36000000; //10 horas //10800000;   // 3 horas
+    // const otroTiempo = hoy.getTime() - 36000000; //10 horas //10800000;   // 3 horas
     if(search !== undefined){
       const dateRegister =  fireBaseTime(search.date.seconds, search.date.nanoseconds);
-      if(dateRegister < hoy && dateRegister > otroTiempo ){
+      if(dateRegister < hoy && dateRegister > ayer ){
         console.log("Correcto! ");
         return true;
       }
@@ -85,68 +86,4 @@ export const searchIdName = async (_tokenId, _account) =>{
   return "Cargando..";
 }
 
-export const searchDateRegist = async (_tokenId, _account) => {
-  if (_tokenId !== "" && _account !== "") {
-    const colRef = collection(db, "attendees");
-    const result = await getDocs(colRef);
-    const docs = [];
-    result.forEach((doc) => {
-      docs.push({ ...doc.data(), id: doc.id });
-    })
-    const search = docs.find(
-      (n) => n.tokenId === _tokenId && n.account === _account
-    );
-    const tiempoTranscurrido = Date.now();
-    const hoy = new Date(tiempoTranscurrido);
-    const ayer = hoy.getTime() - 86400000; // 24 horas
-    const otroTiempo = hoy.getTime() - 36000000; //10 horas //10800000;   // 3 horas
-    if(search !== undefined){
-      const dateRegister =  fireBaseTime(search.date.seconds, search.date.nanoseconds);      
-      if(dateRegister < hoy && dateRegister > otroTiempo ){
-        console.log("Correcto sigue! ");
-        return true;
-      }
-      
-    }
-    console.log("Tu registro no coincide");
-    return false;
-  }
-  return "Aun no se realiza el Sccaner";
- /*  if (_tokenId !== "" && _account !== "") {
-    const colRef = collection(db, "attendees");
-    const result = await getDocs(colRef);
-    const docs = [];
-    result.forEach((doc) => {
-      docs.push({ ...doc.data(), id: doc.id });
-    });
-    const search = docs.find(
-      (n) => n.tokenId === _tokenId && n.account === _account
-    );
-    const dateRegister = fireBaseTime(
-      search.date.seconds,
-      search.date.nanoseconds
-    );
 
-    // const date = dateRegister.toDateString();
-    // const atTime = dateRegister.toLocaleTimeString();
-    //  console.log(date, atTime);
-
-    const tiempoTranscurrido = Date.now();
-    const hoy = new Date(tiempoTranscurrido);
-
-    // console.log(hoy)
-    // console.log(dateRegister)
-
-    const ayer = hoy.getTime() - 86400000; // 24 horas
-    const otroTiempo = hoy.getTime() - 36000000; //10 horas //10800000;   // 3 horas
-
-    if (dateRegister < hoy && dateRegister > otroTiempo) {
-      console.log("Correcto sigue! ");
-      return true;
-    } else {
-      console.log("Tu registro no coincide");
-      return "false";
-    }
-  }
-  return "Aun no se realiza el Sccaner"; */
-};

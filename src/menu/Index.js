@@ -37,13 +37,13 @@ const Index = () => {
                   window.open(`/transfer`, "_self")
                 } >Galeria</button>
       <button>heyy you</button>  */}
-       <WalletData />
-       <div>
-         <img src="https://th.bing.com/th/id/OIP.yC-h1EWpHne90oRtyp4WdQHaFO?pid=ImgDet&rs=1" 
+        <WalletData /> 
+       {/* <div>
+         <img src="https://p4.wallpaperbetter.com/wallpaper/762/60/929/abstract-artistic-qr-code-space-wallpaper-preview.jpg" 
             alt="--" 
             height= '100%'
             width= "100%"/>
-       </div>
+       </div> */}
       {/* <Home /> */}
     </div>
   );
